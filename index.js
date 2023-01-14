@@ -14,16 +14,14 @@ global.db = new sqlite3.Database('./database.db', function (err) {
   }
 })
 
-const userRoutes = require('./routes/user')
+//this tells the app to use the json middleware
+// app.use(express.json())
+
 const authorRoutes = require('./routes/author')
 const readerRoutes = require('./routes/reader')
 
 //set the app to use ejs for rendering
 app.set('view engine', 'ejs')
-
-// app.get('/', (req, res) => {
-//   // res.send('Hello World!')
-// })
 
 //this adds all the userRoutes to the app under the path /user
 // app.use('/user', userRoutes)

@@ -1,7 +1,12 @@
+html {
+  height: 100%;
+}
 body {
+  position: relative;
+
   background-color: black;
   font-family: 'Poppins', sans-serif;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .recent-article-container {
@@ -25,8 +30,9 @@ body {
   padding: 1rem;
   text-align: center;
   font-size: 0.8rem;
-  position: absolute;
-  bottom: 0;
+  /* position: absolute; */
+  /* bottom: 0; */
+  margin-top: 2rem;
   width: 100%;
 }
 
@@ -37,7 +43,7 @@ body {
     #0072ff 51%,
     #00c6ff 100%
   );
-  margin: 10px;
+  /* margin: 10px; */
   padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;

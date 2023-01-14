@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head', {blog_settings}) %>
+  </head>
+  <body>
+    <%- include('../partials/header', {blog_settings}) %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="recent-article-container">
+            <h1 id="recent-articles">Recent Articles</h1>
+          </div>
+        </div>
+        <script src="libs/fitty.min.js"></script>
+        <script>
+          fitty('#recent-articles')
+        </script>
+        <!-- Comment form submittion -->
+        <script>
+          const submitComment = () => {
+            axios
+              .post('/<%= article.article_id %>/comment', {
+                comment_name: document.getElementById('comment-name').value,
+                comment_text: document.getElementById('comment-text').value,
+              })
+              .then((res) => {
+                console.log(res)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }
+        </script>
+
+        <div class="grid row row-gap-4">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-text">
+                  <small class="text-muted"
+                    >Datetime: <%= article.article_published_on %>
+                  </small>
+                </p>
+                <h2 class="card-title"><%= article.article_title %></h2>
+                <h5 class="card-title"><%= article.article_subtitle %></h5>
+                <p class="card-text"><%= article.article_content %></p>
+                <p class="card-text">
+                  <small class="text-muted"
+                    >Author: <%= article.article_author %>
+                  </small>
+                </p>
+                <div
+                  class="btn-group"
+                  role="group"
+                  aria-label="Basic outlined example"
+                >
+                  <button type="button" class="btn btn-outline-primary">
+                    Like
+                    <span class="badge text-bg-secondary"
+                      ><%= article.article_likes %>
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#comment-form-collapse"
+                    aria-expanded="true"
+                    aria-controls="comment-form-collapse"
+                  >
+                    Comment
+                  </button>
+                </div>
+
+                <div class="accordion mt-3" id="accordionExample">
+                  <div class="accordion-item">
+                    <div
+                      id="comment-form-collapse"
+                      class="accordion-collapse collapse hide"
+                      aria-labelledby="headingOne"
+                      data-bs-parent="#accordionExample"
+                    >
+                      <div class="accordion-body">
+                        <form onsubmit="submitComment();return false">
+                          <div class="mb-3">
+                            <label for="comment-name" class="form-label"
+                              >Your name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="comment-name"
+                              placeholder="your name"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label for="comment-text" class="form-label"
+                              >Comment</label
+                            >
+                            <textarea
+                              class="form-control"
+                              id="comment-text"
+                              rows="3"
+                              placeholder="your comment"
+                            ></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-primary">
+                            Submit
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% if(!article){ %>
+          <h3 data-bs-theme="dark" class="text-center">
+            404 Error! Sorry, Article not found.
+          </h3>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <%- include('../partials/footer', {blog_settings}) %>
+  </body>
+</html>

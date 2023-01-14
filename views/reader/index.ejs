@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include('../partials/head', {title:'Panda Coder'}) %>
+    <%- include('../partials/head', {blog_settings}) %>
   </head>
   <body>
-    <%- include('../partials/header') %>
-    <div class="container">
+    <%- include('../partials/header', {blog_settings}) %>
+    <div class="container wrapper">
       <div class="row">
         <div class="col-md-12">
             <div class="recent-article-container"><h1 id="recent-articles">Recent Articles</h1></div>
@@ -20,20 +20,24 @@
             <div class="col-sm-6">
               <div class="card">
                 <div class="card-body">
-                  <p class="card-text"><small class="text-muted"><%= article.datetime %> </small></p>
-                  <h5 class="card-title"><%= article.title %></h5>
+                  <p class="card-text"><small class="text-muted">Datetime: <%= article.article_published_on %> </small></p>
+                  <h5 class="card-title"><%= article.article_title %></h5>
                   <p class="card-text">
-                    <%= article.content %>
+                    <%= article.article_subtitle %>
                   </p>
-                  <a href=<%= article.url %> class="btn btn-primary">Read article</a>
+                  <p class="card-text"><small class="text-muted">Author: <%= article.article_author %> </small></p>
+                  <a href=<%= `/${article.article_id}` %> class="btn btn-primary">Read article</a>
                 </div>
               </div>
             </div>
             <% }) %>
+            <% if(articles.length === 0){ %>
+              <h3 data-bs-theme="dark" class="text-center">Sorry, No articles published!</h3>
+            <% } %>
           </div>
         </div>
       </div>
     </div>
-    <%- include('../partials/footer') %>
+    <%- include('../partials/footer', {blog_settings}) %>
   </body>
 </html>
