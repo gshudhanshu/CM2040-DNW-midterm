@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="recent-article-container">
-            <h1 id="recent-articles">Recent Articles</h1>
+            <h1 id="recent-articles"><%= article.article_title %></h1>
           </div>
         </div>
         <script src="libs/fitty.min.js"></script>
@@ -20,7 +20,7 @@
         <script>
           const submitComment = () => {
             axios
-              .post('/<%= article.article_id %>/comment', {
+              .post('/article/<%= article.article_id %>/comment', {
                 comment_name: document.getElementById('comment-name').value,
                 comment_text: document.getElementById('comment-text').value,
               })
@@ -82,7 +82,7 @@
                       data-bs-parent="#accordionExample"
                     >
                       <div class="accordion-body">
-                        <form onsubmit="submitComment();return false">
+                        <form onsubmit="submitComment()">
                           <div class="mb-3">
                             <label for="comment-name" class="form-label"
                               >Your name</label

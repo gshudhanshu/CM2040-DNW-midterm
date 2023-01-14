@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+
 const port = 3000
 const sqlite3 = require('sqlite3').verbose()
 
@@ -15,7 +16,7 @@ global.db = new sqlite3.Database('./database.db', function (err) {
 })
 
 //this tells the app to use the json middleware
-// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
 
 const authorRoutes = require('./routes/author')
 const readerRoutes = require('./routes/reader')
