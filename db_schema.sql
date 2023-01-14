@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS testUserRecords (
 --insert default data (if necessary here)
 
 INSERT INTO testUsers ("test_name") VALUES ("Simon Star");
-INSERT INTO testUserRecords ("test_record_value", "test_user_id") VALUES( "Lorem ipsum dolor sit amet", 1); --try changing the test_user_id to a different number and you will get an error
+INSERT INTO testUserRecords ("test_record_value", "test_user_id") VALUES( "Lorem ipsum dolor sit amet", 2); --try changing the test_user_id to a different number and you will get an error
 
 COMMIT;
 
