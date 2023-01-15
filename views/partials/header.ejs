@@ -40,12 +40,21 @@
             role="group"
             aria-label="Basic outlined example"
           >
-            <a href="/" class="btn btn-outline-primary"> Reader </a>
-            <a href="/author" class="btn btn-outline-primary"> Author </a>
+            <a href="/" class="btn btn-outline-primary">Reader</a>
+            <a href="/author" class="btn btn-outline-primary">Author</a>
           </div>
-          <a href="/author/blog_settings" class="btn btn-primary ms-3">
+          <a
+            href="/author/blog-settings"
+            class="btn btn-primary ms-3 setting-btn d-none"
+          >
             Settings
           </a>
+          <script>
+            const settingBtn = document.querySelector('.setting-btn')
+            if (window.location.pathname.match('/author')) {
+              settingBtn.classList.remove('d-none')
+            }
+          </script>
         </div>
       </div>
     </nav>

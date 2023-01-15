@@ -25,11 +25,94 @@ router.get('/', async (req, res) => {
   })
 })
 
-router.get('/blog_settings', async (req, res) => {
+router.get('/blog-settings', async (req, res) => {
   const blog_settings = await getBlogSettings()
-  res.render('author/blog_settings', {
+  res.render('author/blog-settings', {
     blog_settings,
   })
+})
+
+router.post('/blog-settings', async (req, res) => {
+  const { blog_title, blog_subtitle, blog_author } = req.body
+  const blog_id = 1
+
+  await db.run(
+    'UPDATE blog_settings SET (blog_title, blog_subtitle, blog_author) = (?, ?, ?) WHERE blog_id = ?',
+    [blog_title, blog_subtitle, blog_author, blog_id]
+  )
+
+  res.redirect('/author/blog-settings')
+})
+
+router.get('/create-new-article', async (req, res) => {
+  const blog_settings = await getBlogSettings()
+  res.render('author/create-new-article', {
+    blog_settings,
+  })
+})
+
+router.post('/create-new-article', async (req, res) => {
+  const { article_title, article_subtitle, article_content } = req.body
+  const blog_settings = await getBlogSettings()
+  await db.run(
+    'INSERT INTO articles (article_title, article_subtitle, article_content, article_author) VALUES (?, ?, ?, ?)',
+    [
+      article_title,
+      article_subtitle,
+      article_content,
+      blog_settings.blog_author,
+    ]
+  )
+  // res.redirect('/author')
+})
+
+router.get('/edit-article/:article_id', async (req, res) => {
+  const article_id = req.params.article_id
+  const article = await db.get('SELECT * FROM articles WHERE article_id = ?', [
+    article_id,
+  ])
+  const blog_settings = await getBlogSettings()
+  res.render('author/edit-article', {
+    blog_settings,
+    article,
+  })
+})
+
+router.put('/edit-article/:article_id', async (req, res) => {
+  const article_id = req.params.article_id
+  const { article_title, article_subtitle, article_content } = req.body
+  await db.run(
+    'UPDATE articles SET (article_title, article_subtitle, article_content) = (?, ?, ?) WHERE article_id = ?',
+    [article_title, article_subtitle, article_content, article_id]
+  )
+  res.redirect('/author')
+})
+
+router.put('/article/:article_id/:action', async (req, res) => {
+  const article_id = req.params.article_id
+  const actionParam = req.params.action
+
+  if (actionParam === 'publish') {
+    await db.run(
+      'UPDATE articles SET (article_status, article_published_on) = (?, CURRENT_TIMESTAMP) WHERE article_id = ?',
+      ['Published', article_id]
+    )
+  } else if (actionParam === 'draft') {
+    await db.run(
+      'UPDATE articles SET (article_status, article_updated_at, article_published_on) = (?, CURRENT_TIMESTAMP, NULL) WHERE article_id = ?',
+      ['Draft', article_id]
+    )
+  }
+  res.redirect('/author')
+})
+
+router.delete('/article/:article_id', async (req, res) => {
+  const article_id = req.params.article_id
+  await db.run('DELETE FROM article_comments WHERE article_id = ?', [
+    article_id,
+  ])
+  await db.run('DELETE FROM articles WHERE article_id = ?', [article_id])
+  res.redirect('/author')
 })
 
 module.exports = router

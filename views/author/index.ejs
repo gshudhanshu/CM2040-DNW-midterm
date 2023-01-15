@@ -4,111 +4,166 @@
     <%- include('../partials/head', {blog_settings}) %>
   </head>
   <body>
-    <%- include('../partials/header', {blog_settings}) %>
-    <div class="container wrapper">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="recent-article-container">
-            <h1 id="recent-articles" class="fit">Article Management Area</h1>
+    <div>
+      <%- include('../partials/header', {blog_settings}) %>
+      <div class="container wrapper">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="recent-article-container">
+              <h1 id="recent-articles" class="fit">Article Management Area</h1>
+            </div>
+            <script src="/libs/fitty.min.js"></script>
+            <script>
+              fitty('#recent-articles')
+            </script>
           </div>
-          <script src="/libs/fitty.min.js"></script>
-          <script>
-            fitty('#recent-articles')
-          </script>
         </div>
-      </div>
-      <div class="row">
-        <div class="d-flex justify-content-between p-0 my-3">
-          <h3 class="text-light p-0">Draft Articles</h3>
-          <a class="btn btn-primary" href="/author/create-new-article"
-            >Create New Article</a
-          >
+        <div class="row">
+          <div class="d-flex justify-content-between p-0 my-3">
+            <h3 class="text-light p-0">Draft Articles</h3>
+            <a class="btn btn-primary" href="/author/create-new-article"
+              >Create New Draft</a
+            >
+          </div>
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Id#</th>
+                <th scope="col">Title</th>
+                <th scope="col" class="d-none d-md-table-cell">Author</th>
+                <th scope="col" class="d-none d-md-table-cell">Likes</th>
+                <th scope="col" class="d-none d-md-table-cell">Created At</th>
+                <th scope="col" class="d-none d-md-table-cell">Updated At</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% draft_articles.forEach(article => { %>
+              <tr>
+                <th scope="row"><%= article.article_id%></th>
+                <td><%= article.article_title%></td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_author%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_likes%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_created_at%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_updated_at%>
+                </td>
+                <td>
+                  <div class="d-flex flex-column flex-md-row gap-1">
+                    <a
+                      href="/author/edit-article/<%= article.article_id%>"
+                      class="btn btn-primary"
+                      >Edit</a
+                    >
+                    <a
+                      href="/author"
+                      class="btn btn-success"
+                      onclick="actionArticle(<%= article.article_id%>, 'publish')"
+                      >Publish</a
+                    >
+                    <a
+                      href="/author"
+                      class="btn btn-danger"
+                      onclick="deleteArticle(<%= article.article_id%>)"
+                      >Delete</a
+                    >
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
         </div>
-        <table class="table table-dark table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Id#</th>
-              <th scope="col">Title</th>
-              <th scope="col" class="d-none d-md-table-cell">Author</th>
-              <th scope="col" class="d-none d-md-table-cell">Likes</th>
-              <th scope="col" class="d-none d-md-table-cell">Created At</th>
-              <th scope="col" class="d-none d-md-table-cell">Updated At</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% draft_articles.forEach(article => { %>
-            <tr>
-              <th scope="row"><%= article.article_id%></th>
-              <td><%= article.article_title%></td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_author%>
-              </td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_likes%>
-              </td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_created_at%>
-              </td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_updated_at%>
-              </td>
-              <td>
-                <div class="d-flex flex-column flex-md-row gap-1">
-                  <a class="btn btn-primary">Edit</a>
-                  <a class="btn btn-success">Publish</a>
-                  <a class="btn btn-danger">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-      <div class="row">
-        <div class="d-flex justify-content-between p-0 my-3">
-          <h3 class="text-light p-0">Published Articles</h3>
+        <div class="row">
+          <div class="d-flex justify-content-between p-0 my-3">
+            <h3 class="text-light p-0">Published Articles</h3>
+          </div>
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Id#</th>
+                <th scope="col">Title</th>
+                <th scope="col" class="d-none d-md-table-cell">Author</th>
+                <th scope="col" class="d-none d-md-table-cell">Likes</th>
+                <th scope="col" class="d-none d-md-table-cell">Updated At</th>
+                <th scope="col" class="d-none d-md-table-cell">Published On</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% published_articles.forEach(article => { %>
+              <tr>
+                <th scope="row"><%= article.article_id%></th>
+                <td><%= article.article_title%></td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_author%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_likes%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_updated_at%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_published_on%>
+                </td>
+                <td>
+                  <div class="d-flex flex-column flex-md-row gap-1">
+                    <a
+                      href="/author/edit-article/<%= article.article_id%>"
+                      class="btn btn-primary"
+                      >Edit</a
+                    >
+                    <a
+                      href="/author"
+                      class="btn btn-success"
+                      onclick="actionArticle(<%= article.article_id%>, 'draft')"
+                      >Draft</a
+                    >
+                    <a
+                      href="/author"
+                      class="btn btn-danger"
+                      onclick="deleteArticle(<%= article.article_id%>)"
+                      >Delete</a
+                    >
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
         </div>
-        <table class="table table-dark table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Id#</th>
-              <th scope="col">Title</th>
-              <th scope="col" class="d-none d-md-table-cell">Author</th>
-              <th scope="col" class="d-none d-md-table-cell">Likes</th>
-              <th scope="col" class="d-none d-md-table-cell">Created At</th>
-              <th scope="col" class="d-none d-md-table-cell">Updated At</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% published_articles.forEach(article => { %>
-            <tr>
-              <th scope="row"><%= article.article_id%></th>
-              <td><%= article.article_title%></td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_author%>
-              </td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_likes%>
-              </td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_created_at%>
-              </td>
-              <td class="d-none d-md-table-cell">
-                <%= article.article_updated_at%>
-              </td>
-              <td>
-                <div class="d-flex flex-column flex-md-row gap-1">
-                  <a class="btn btn-primary">Edit</a>
-                  <a class="btn btn-success">Draft</a>
-                  <a class="btn btn-danger">Delete</a>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <script>
+          const actionArticle = (articleId, actionType) => {
+            axios
+              .put(`/author/article/${articleId}/${actionType}`)
+              .then((response) => {
+                console.log(response)
+                location.reload()
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
+
+          const deleteArticle = (articleId) => {
+            axios
+              .delete(`/author/article/${articleId}`)
+              .then((response) => {
+                console.log(response)
+                location.reload()
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
+        </script>
       </div>
     </div>
     <%- include('../partials/footer', {blog_settings}) %>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head', {blog_settings}) %>
+  </head>
+  <body>
+    <div>
+      <%- include('../partials/header', {blog_settings}) %>
+      <div class="container wrapper">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-container">
+              <h1 id="recent-articles" class="fit">Blog Settings Area</h1>
+            </div>
+            <script src="/libs/fitty.min.js"></script>
+            <script>
+              fitty('#recent-articles', { minSize: 20, maxSize: 80 })
+            </script>
+          </div>
+        </div>
+        <div class="row">
+          <form onsubmit="submitBlogSettings()">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="blog-title"
+                placeholder="blog title"
+                value="<%= blog_settings.blog_title %>"
+              />
+              <label for="blog-title">Blog title</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea
+                class="form-control textarea"
+                id="blog-subtitle"
+                placeholder="blog subtitle"
+              >
+<%= blog_settings.blog_subtitle %></textarea
+              >
+              <label for="blog-subtitle">Blog subtitle</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                class="form-control"
+                id="blog-author"
+                rows="3"
+                placeholder="blog author"
+                value="<%= blog_settings.blog_author %>"
+              />
+              <label for="blog-author">Blog author</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/author" class="btn btn-secondary mx-3">Back</a>
+          </form>
+          <script>
+            const submitBlogSettings = () => {
+              const blog_title = document.getElementById('blog-title').value
+              const blog_subtitle =
+                document.getElementById('blog-subtitle').value
+              const blog_author = document.getElementById('blog-author').value
+              const blogSettings = {
+                blog_title,
+                blog_subtitle,
+                blog_author,
+              }
+
+              axios
+                .post('/author/blog-settings', { ...blogSettings })
+                .then((response) => {
+                  console.log(response)
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
+            }
+          </script>
+        </div>
+      </div>
+    </div>
+    <%- include('../partials/footer', {blog_settings}) %>
+  </body>
+</html>

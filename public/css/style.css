@@ -2,17 +2,19 @@ html {
   height: 100%;
 }
 body {
-  position: relative;
-
   background-color: black;
   font-family: 'Poppins', sans-serif;
-  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* .recent-article-container {
-  width: 97%;
-  display: block;
-} */
+.title-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 #recent-articles {
   margin-top: 2rem;
@@ -84,4 +86,9 @@ body {
   .mx-w-100 {
     width: 100% !important;
   }
+}
+
+/* forms */
+.form-floating > textarea.textarea {
+  height: 100px;
 }
