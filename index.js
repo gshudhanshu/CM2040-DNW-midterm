@@ -15,8 +15,9 @@ global.db = new sqlite3.Database('./database.db', function (err) {
   }
 })
 
-//this tells the app to use the json middleware
-// app.use(express.urlencoded({ extended: true }))
+// parse application/json and application/x-www-form-urlencoded
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 const authorRoutes = require('./routes/author')
 const readerRoutes = require('./routes/reader')
