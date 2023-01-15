@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head', {blog_settings}) %>
+  </head>
+  <body>
+    <%- include('../partials/header', {blog_settings}) %>
+    <div class="container wrapper">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="recent-article-container">
+            <h1 id="recent-articles" class="fit">Blog Settings Area</h1>
+          </div>
+          <script src="/libs/fitty.min.js"></script>
+          <script>
+            fitty('#recent-articles')
+          </script>
+        </div>
+      </div>
+    </div>
+    <%- include('../partials/footer', {blog_settings}) %>
+  </body>
+</html>
