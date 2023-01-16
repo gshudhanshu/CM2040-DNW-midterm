@@ -69,6 +69,7 @@
                           class="form-control"
                           id="comment-name"
                           placeholder="your name"
+                          required
                         />
                         <label for="comment-name">Your name</label>
                       </div>
@@ -78,6 +79,7 @@
                           id="comment-text"
                           rows="3"
                           placeholder="your comment"
+                          required
                         ></textarea>
                         <label for="comment-text">Comment</label>
                       </div>
@@ -114,20 +116,63 @@
                         ><%= comment.comment_likes %>
                       </span>
                     </a>
-                    <a
-                      href="/article/<%= article.article_id %>"
+                    <button
+                      type="button"
                       class="btn btn-danger"
-                      data-comment-id="<%= comment.comment_id %>"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteComment"
                       onclick="deleteComment(<%= comment.comment_id %>)"
                     >
                       Delete
-                    </a>
+                    </button>
                   </div>
                 </li>
                 <% }) %>
               </ul>
             </div>
           </article>
+
+          <!-- Model before deleting a comment -->
+          <div
+            class="modal fade"
+            id="deleteComment"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="deleteCommentLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="deleteCommentLabel">
+                    Delete Comment
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to delete this comment?</p>
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-danger" id="delete-comment-confirm-btn">
+                    Delete
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- Comment form submittion -->
           <script>
@@ -174,12 +219,24 @@
 
             // delete comment
             const deleteComment = (comment_id) => {
+              const deleteCommentConfirmBtn = document.getElementById(
+                'delete-comment-confirm-btn'
+              )
+              deleteCommentConfirmBtn.setAttribute(
+                'onclick',
+                `deleteCommentConfirm(${comment_id})`
+              )
+            }
+
+            // delete comment confirm
+            const deleteCommentConfirm = (comment_id) => {
               axios
                 .delete(
                   `/article/<%= article.article_id %>/comment/${comment_id}/delete`
                 )
                 .then((res) => {
                   console.log(res)
+                  location.reload()
                 })
                 .catch((err) => {
                   console.log(err)

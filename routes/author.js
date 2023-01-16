@@ -99,7 +99,7 @@ router.put('/edit-article/:article_id', async (req, res) => {
   const article_id = req.params.article_id
   const { article_title, article_subtitle, article_content } = req.body
   await db.run(
-    'UPDATE articles SET (article_title, article_subtitle, article_content, article_author) = (?, ?, ?, ?) WHERE article_id = ?',
+    'UPDATE articles SET (article_title, article_subtitle, article_content) = (?, ?, ?) WHERE article_id = ?',
     [article_title, article_subtitle, article_content, article_id]
   )
   res.json({ message: 'Article updated' })

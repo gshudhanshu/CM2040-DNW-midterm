@@ -26,6 +26,7 @@
                 id="article-title"
                 placeholder="article title"
                 value="<%= article.article_title %>"
+                required
               />
               <label for="article-title">Article title</label>
             </div>
@@ -36,6 +37,7 @@
                 id="article-subtitle"
                 placeholder="article subtitle"
                 value="<%= article.article_subtitle %>"
+                required
               />
               <label for="article-subtitle">Article subtitle</label>
             </div>
@@ -44,6 +46,7 @@
                 class="form-control textarea"
                 id="article-content"
                 placeholder="article content"
+                required
               >
 <%=article.article_content%></textarea
               >

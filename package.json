@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-db": "cat db_schema.sql | sqlite3 database.db #build a new database from the sql file",
-    "build-db2": "type db_schema.sql | sqlite3 database.db",
-    "clean-db": "rm database.db #remove the old database",
-    "clean-db2": "rm database.db",
+    "build-db": "cat db_schema.sql | sqlite3 database.db",
+    "clean-db": "rm database.db",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
