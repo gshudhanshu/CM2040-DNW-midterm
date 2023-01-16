@@ -30,7 +30,7 @@ To install all the node packages run `npm install` from the project directory
 
 #### Database schema
 
-![SQL DB Schema](./sql-schema.png)
+![SQL DB Schema](./sql-schema.jpg)
 
 #### How to use the web app
 
