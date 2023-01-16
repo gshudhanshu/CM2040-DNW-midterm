@@ -99,7 +99,7 @@ router.put('/edit-article/:article_id', async (req, res) => {
   const article_id = req.params.article_id
   const { article_title, article_subtitle, article_content } = req.body
   await db.run(
-    'UPDATE articles SET (article_title, article_subtitle, article_content) = (?, ?, ?) WHERE article_id = ?',
+    'UPDATE articles SET (article_title, article_subtitle, article_content, article_updated_at) = (?, ?, ?, CURRENT_TIMESTAMP) WHERE article_id = ?',
     [article_title, article_subtitle, article_content, article_id]
   )
   res.json({ message: 'Article updated' })
@@ -122,7 +122,7 @@ router.put('/article/:article_id/:action', async (req, res) => {
     )
   } else if (actionParam === 'draft') {
     await db.run(
-      'UPDATE articles SET (article_status, article_updated_at, article_published_on) = (?, CURRENT_TIMESTAMP, NULL) WHERE article_id = ?',
+      'UPDATE articles SET (article_status, article_updated_at) = (?, CURRENT_TIMESTAMP) WHERE article_id = ?',
       ['Draft', article_id]
     )
   }
