@@ -25,13 +25,13 @@
               <%= article.article_content %>
             </p>
             <div
-              class="btn-group"
+              class="btn-group me-3"
               role="group"
               aria-label="Basic outlined example"
             >
               <a
                 href="/article/<%= article.article_id %>"
-                class="btn btn-outline-primary"
+                class="btn btn-outline-light"
                 data-article-id="<%= article.article_id %>"
                 onclick="likeArticle(<%= article.article_id %>)"
               >
@@ -42,7 +42,7 @@
               </a>
               <button
                 type="button"
-                class="btn btn-outline-primary"
+                class="btn btn-outline-light"
                 data-bs-toggle="collapse"
                 data-bs-target="#comment-form-collapse"
                 aria-expanded="true"
@@ -51,6 +51,8 @@
                 <i class="bi bi-chat-square-dots"></i> Comment
               </button>
             </div>
+            <a href="/" class="btn btn-primary"> Back </a>
+
             <div class="accordion mt-3">
               <div class="accordion-item comment-form">
                 <div

@@ -16,7 +16,7 @@ const getBlogSettings = async () => {
  */
 router.get('/', async (req, res) => {
   const articles = await db.all(
-    "SELECT * FROM articles WHERE article_status='Published'"
+    "SELECT * FROM articles WHERE article_status='Published' ORDER BY article_published_on DESC"
   )
   const blog_settings = await getBlogSettings()
   res.render('reader/index', { blog_settings, articles })
@@ -32,7 +32,7 @@ router.get('/article/:article_id', async (req, res) => {
   ])
   const blog_settings = await getBlogSettings()
   const comments = await db.all(
-    'SELECT * FROM article_comments WHERE article_id = ?',
+    'SELECT * FROM article_comments WHERE article_id = ? ORDER BY comment_created_at DESC',
     [article_id]
   )
   res.render('reader/article', { blog_settings, article, comments })

@@ -1,22 +1,24 @@
-<header class="p-3 text-bg-dark">
+<header class="p-3 purple-bg">
   <div class="container">
     <nav
       id="mainNav"
       class="navbar navbar-dark navbar-expand-md sticky-top py-3"
     >
-      <div class="container-fluid gap-3">
+      <div class="container-fluid gap-3 align-items-start">
         <div
           class="d-flex justify-content-between column-gap-3 justify-content-end w-100"
         >
           <div class="d-flex flex-column gap-1">
             <a class="navbar-brand d-flex align-items-center" href="/">
               <span
-                class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"
+                class="bs-icon-sm bs-icon-circle bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
               >
-                <i class="bi bi-code-slash"></i> </span
-              ><span class="fw-bold"><%= blog_settings.blog_title %></span></a
+                <i class="bi bi-code-slash fs-2"></i> </span
+              ><span class="fs-3 fw-bold"
+                ><%= blog_settings.blog_title %></span
+              ></a
             >
-            <span class="fw-light d-block">
+            <span class="fw-normal d-block">
               <%= blog_settings.blog_subtitle %>
             </span>
             <span class="fw-light d-block">
@@ -25,37 +27,23 @@
               </small>
             </span>
           </div>
-          <button
-            class="navbar-toggler"
-            data-bs-toggle="collapse"
-            data-bs-target="#navcol-1"
-          >
-            <span class="visually-hidden">Toggle navigation</span
-            ><span class="navbar-toggler-icon"></span>
-          </button>
         </div>
-        <div class="collapse navbar-collapse justify-content-end">
-          <div
-            class="btn-group"
-            role="group"
-            aria-label="Basic outlined example"
-          >
-            <a href="/" class="btn btn-outline-primary">Reader</a>
-            <a href="/author" class="btn btn-outline-primary">Author</a>
-          </div>
-          <a
-            href="/author/blog-settings"
-            class="btn btn-primary ms-3 setting-btn d-none"
-          >
-            Settings
-          </a>
-          <script>
-            const settingBtn = document.querySelector('.setting-btn')
-            if (window.location.pathname.match('/author')) {
-              settingBtn.classList.remove('d-none')
-            }
-          </script>
+        <div class="btn-group me-3" role="group">
+          <a href="/" class="btn btn-outline-light">Reader</a>
+          <a href="/author" class="btn btn-outline-light">Author</a>
         </div>
+        <a
+          href="/author/blog-settings"
+          class="btn btn-light setting-btn d-none"
+        >
+          Settings
+        </a>
+        <script>
+          const settingBtn = document.querySelector('.setting-btn')
+          if (window.location.pathname.match('/author')) {
+            settingBtn.classList.remove('d-none')
+          }
+        </script>
       </div>
     </nav>
   </div>

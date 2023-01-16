@@ -40,8 +40,8 @@ router.post('/blog-settings', async (req, res) => {
     'UPDATE blog_settings SET (blog_title, blog_subtitle, blog_author) = (?, ?, ?) WHERE blog_id = ?',
     [blog_title, blog_subtitle, blog_author, blog_id]
   )
-
-  res.redirect('/author/blog-settings')
+  res.json({ message: 'Blog settings updated' })
+  // res.redirect('/author/blog-settings')
 })
 
 router.get('/create-new-article', async (req, res) => {
@@ -63,6 +63,7 @@ router.post('/create-new-article', async (req, res) => {
       blog_settings.blog_author,
     ]
   )
+  res.json({ message: 'Article created' })
   // res.redirect('/author')
 })
 
@@ -82,10 +83,11 @@ router.put('/edit-article/:article_id', async (req, res) => {
   const article_id = req.params.article_id
   const { article_title, article_subtitle, article_content } = req.body
   await db.run(
-    'UPDATE articles SET (article_title, article_subtitle, article_content) = (?, ?, ?) WHERE article_id = ?',
+    'UPDATE articles SET (article_title, article_subtitle, article_content, article_author) = (?, ?, ?, ?) WHERE article_id = ?',
     [article_title, article_subtitle, article_content, article_id]
   )
-  res.redirect('/author')
+  res.json({ message: 'Article updated' })
+  // res.redirect('/author')
 })
 
 router.put('/article/:article_id/:action', async (req, res) => {
@@ -103,7 +105,8 @@ router.put('/article/:article_id/:action', async (req, res) => {
       ['Draft', article_id]
     )
   }
-  res.redirect('/author')
+  res.json({ message: 'Article updated' })
+  // res.redirect('/author')
 })
 
 router.delete('/article/:article_id', async (req, res) => {
@@ -112,7 +115,8 @@ router.delete('/article/:article_id', async (req, res) => {
     article_id,
   ])
   await db.run('DELETE FROM articles WHERE article_id = ?', [article_id])
-  res.redirect('/author')
+  res.json({ message: 'Article deleted' })
+  // res.redirect('/author')
 })
 
 module.exports = router

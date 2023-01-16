@@ -9,38 +9,41 @@
       <div class="container wrapper">
         <div class="row">
           <div class="col-md-12">
-            <div class="recent-article-container">
-              <h1 id="recent-articles" class="fit">Article Management Area</h1>
+            <div class="title-container">
+              <h1 id="page-title" class="fit">Article Management Area</h1>
             </div>
             <script src="/libs/fitty.min.js"></script>
             <script>
-              fitty('#recent-articles')
+              fitty('#page-title', { minSize: 20, maxSize: 80 })
             </script>
           </div>
         </div>
         <div class="row">
           <div class="d-flex justify-content-between p-0 my-3">
             <h3 class="text-light p-0">Draft Articles</h3>
-            <a class="btn btn-primary" href="/author/create-new-article"
+            <a
+              class="btn btn-primary d-flex align-items-center"
+              href="/author/create-new-article"
               >Create New Draft</a
             >
           </div>
           <table class="table table-dark table-hover">
             <thead>
               <tr>
-                <th scope="col">Id#</th>
+                <!-- <th scope="col">Id#</th> -->
                 <th scope="col">Title</th>
                 <th scope="col" class="d-none d-md-table-cell">Author</th>
                 <th scope="col" class="d-none d-md-table-cell">Likes</th>
                 <th scope="col" class="d-none d-md-table-cell">Created At</th>
                 <th scope="col" class="d-none d-md-table-cell">Updated At</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="d-none d-md-table-cell">Published On</th>
+                <th scope="col" width="100px">Actions</th>
               </tr>
             </thead>
             <tbody>
               <% draft_articles.forEach(article => { %>
               <tr>
-                <th scope="row"><%= article.article_id%></th>
+                <!-- <th scope="row"><%= article.article_id%></th> -->
                 <td><%= article.article_title%></td>
                 <td class="d-none d-md-table-cell">
                   <%= article.article_author%>
@@ -54,25 +57,31 @@
                 <td class="d-none d-md-table-cell">
                   <%= article.article_updated_at%>
                 </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_published_on%>
+                </td>
                 <td>
                   <div class="d-flex flex-column flex-md-row gap-1">
                     <a
                       href="/author/edit-article/<%= article.article_id%>"
                       class="btn btn-primary"
-                      >Edit</a
-                    >
+                      ><i class="bi bi-pencil-square"></i
+                    ></a>
                     <a
                       href="/author"
-                      class="btn btn-success"
+                      class="btn btn-warning"
                       onclick="actionArticle(<%= article.article_id%>, 'publish')"
                       >Publish</a
                     >
-                    <a
-                      href="/author"
+                    <button
+                      type="button"
                       class="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteArticle"
                       onclick="deleteArticle(<%= article.article_id%>)"
-                      >Delete</a
                     >
+                      <i class="bi bi-trash"></i>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -87,25 +96,29 @@
           <table class="table table-dark table-hover">
             <thead>
               <tr>
-                <th scope="col">Id#</th>
+                <!-- <th scope="col">Id#</th> -->
                 <th scope="col">Title</th>
                 <th scope="col" class="d-none d-md-table-cell">Author</th>
                 <th scope="col" class="d-none d-md-table-cell">Likes</th>
+                <th scope="col" class="d-none d-md-table-cell">Created At</th>
                 <th scope="col" class="d-none d-md-table-cell">Updated At</th>
                 <th scope="col" class="d-none d-md-table-cell">Published On</th>
-                <th scope="col">Actions</th>
+                <th scope="col" width="100px">Actions</th>
               </tr>
             </thead>
             <tbody>
               <% published_articles.forEach(article => { %>
               <tr>
-                <th scope="row"><%= article.article_id%></th>
+                <!-- <th scope="row"><%= article.article_id%></th> -->
                 <td><%= article.article_title%></td>
                 <td class="d-none d-md-table-cell">
                   <%= article.article_author%>
                 </td>
                 <td class="d-none d-md-table-cell">
                   <%= article.article_likes%>
+                </td>
+                <td class="d-none d-md-table-cell">
+                  <%= article.article_created_at%>
                 </td>
                 <td class="d-none d-md-table-cell">
                   <%= article.article_updated_at%>
@@ -116,29 +129,140 @@
                 <td>
                   <div class="d-flex flex-column flex-md-row gap-1">
                     <a
+                      href="/article/<%= article.article_id%>"
+                      class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#shareableLink"
+                      onclick="updateModel(<%= article.article_id%>)"
+                      ><i class="bi bi-eye"></i
+                    ></a>
+                    <a
                       href="/author/edit-article/<%= article.article_id%>"
                       class="btn btn-primary"
-                      >Edit</a
-                    >
+                      ><i class="bi bi-pencil-square"></i
+                    ></a>
                     <a
                       href="/author"
-                      class="btn btn-success"
+                      class="btn btn-warning"
                       onclick="actionArticle(<%= article.article_id%>, 'draft')"
                       >Draft</a
                     >
-                    <a
-                      href="/author"
-                      class="btn btn-danger"
+                    <button
+                      type="button"
                       onclick="deleteArticle(<%= article.article_id%>)"
-                      >Delete</a
+                      class="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteArticle"
                     >
+                      <i class="bi bi-trash"></i>
+                    </button>
                   </div>
                 </td>
               </tr>
               <% }) %>
             </tbody>
           </table>
+
+          <!-- Model for shareable link -->
+          <div
+            class="modal fade"
+            id="shareableLink"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="shareableLinkLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="shareableLinkLabel">
+                    Sharable link
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="articleLink"
+                      value=""
+                    />
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                      id="shareable-link-copy-btn"
+                      onclick="copyShareableLink()"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <a class="btn btn-primary" id="shareable-link-open-btn">
+                    Open
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Model before deleting a article -->
+        <div
+          class="modal fade"
+          id="deleteArticle"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="deleteArticleLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteArticleLabel">
+                  Delete Article
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete this article?</p>
+              </div>
+              <div class="modal-footer">
+                <a class="btn btn-danger" id="delete-article-confirm-btn">
+                  Delete
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <script>
           const actionArticle = (articleId, actionType) => {
             axios
@@ -153,6 +277,16 @@
           }
 
           const deleteArticle = (articleId) => {
+            const deleteArticleConfirmBtn = document.getElementById(
+              'delete-article-confirm-btn'
+            )
+            deleteArticleConfirmBtn.setAttribute(
+              'onclick',
+              `deleteArticleConfirm(${articleId})`
+            )
+          }
+
+          const deleteArticleConfirm = (articleId) => {
             axios
               .delete(`/author/article/${articleId}`)
               .then((response) => {
@@ -162,6 +296,22 @@
               .catch((error) => {
                 console.log(error)
               })
+          }
+
+          const updateModel = (articleId) => {
+            const articleLink = document.getElementById('articleLink')
+            const shareableLinkOpenBtn = document.getElementById(
+              'shareable-link-open-btn'
+            )
+            articleLink.value = `${window.location.host}/article/${articleId}`
+            shareableLinkOpenBtn.setAttribute('href', `/article/${articleId}`)
+          }
+
+          const copyShareableLink = async () => {
+            const articleLink = document.getElementById('articleLink')
+            articleLink.select()
+            articleLink.setSelectionRange(0, 99999)
+            await navigator.clipboard.writeText(articleLink.value)
           }
         </script>
       </div>
