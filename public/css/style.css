@@ -5,20 +5,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.purple-bg {
-  background-color: #02aab0;
-  color: white;
-}
-
-.btn-primary {
-  background-color: #02aab0;
-  border: unset;
-}
-
-.btn-danger {
-  border: unset;
+  width: 100%;
 }
 
 .title-container {
@@ -92,6 +79,20 @@ body {
   background-position: right center; /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
+}
+
+.purple-bg {
+  background-color: #02aab0;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #02aab0;
+  border: unset;
+}
+
+.btn-danger {
+  border: unset;
 }
 
 @media (max-width: 991.98px) {
