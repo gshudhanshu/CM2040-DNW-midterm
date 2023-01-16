@@ -12,7 +12,6 @@
             <div class="title-container">
               <h1 id="page-title" class="fit">Create new draft article</h1>
             </div>
-            <script src="/libs/fitty.min.js"></script>
             <script>
               fitty('#page-title', { minSize: 20, maxSize: 80 })
             </script>
@@ -50,6 +49,7 @@
             <a href="/author" class="btn btn-secondary mx-3">Back</a>
           </form>
           <script>
+            // submitting the new article data to server
             const submitArticle = () => {
               const article_title =
                 document.getElementById('article-title').value

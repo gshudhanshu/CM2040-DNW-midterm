@@ -21,18 +21,19 @@ app.use(express.urlencoded({ extended: true }))
 
 const authorRoutes = require('./routes/author')
 const readerRoutes = require('./routes/reader')
+const error404Routes = require('./routes/error404')
 
 //set the app to use ejs for rendering
 app.set('view engine', 'ejs')
 
-//this adds all the userRoutes to the app under the path /user
-// app.use('/user', userRoutes)
-app.use('/author', authorRoutes)
-app.use('/', readerRoutes)
-
 app.use(express.static('public'))
 app.use('public/css', express.static(__dirname + 'public/css'))
 
+//setting the author, reader and error404 routes
+app.use('/author', authorRoutes)
+app.use('/', readerRoutes)
+app.use('/', error404Routes)
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Blog app listening on port ${port}`)
 })

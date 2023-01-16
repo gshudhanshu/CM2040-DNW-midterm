@@ -131,6 +131,7 @@
 
           <!-- Comment form submittion -->
           <script>
+            // Submit comment
             const submitComment = (article_id) => {
               axios
                 .post(`/article/${article_id}/comment`, {
@@ -145,6 +146,7 @@
                 })
             }
 
+            // Like article
             const likeArticle = () => {
               axios
                 .put('/article/<%= article.article_id %>/like')
@@ -156,6 +158,7 @@
                 })
             }
 
+            // Like comment
             const likeComment = (comment_id) => {
               axios
                 .put(
@@ -169,6 +172,7 @@
                 })
             }
 
+            // delete comment
             const deleteComment = (comment_id) => {
               axios
                 .delete(

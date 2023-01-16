@@ -12,7 +12,6 @@
             <div class="title-container">
               <h1 id="page-title" class="fit">Blog Settings Area</h1>
             </div>
-            <script src="/libs/fitty.min.js"></script>
             <script>
               fitty('#page-title', { minSize: 20, maxSize: 80 })
             </script>
@@ -54,6 +53,7 @@
             <a href="/author" class="btn btn-secondary mx-3">Back</a>
           </form>
           <script>
+            // sending the edited blog settings to the server
             const submitBlogSettings = () => {
               const blog_title = document.getElementById('blog-title').value
               const blog_subtitle =

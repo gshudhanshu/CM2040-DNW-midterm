@@ -39,6 +39,7 @@
           Settings
         </a>
         <script>
+          // Show settings button if on author page
           const settingBtn = document.querySelector('.setting-btn')
           if (window.location.pathname.match('/author')) {
             settingBtn.classList.remove('d-none')

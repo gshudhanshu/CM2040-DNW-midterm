@@ -1,15 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const { query, param, body, validationResult } = require('express-validator')
-
 const db = require('../utils/sqlitePromises')
-
-const getBlogSettings = async () => {
-  const blog_settings = await db.get(
-    'SELECT * FROM blog_settings WHERE blog_id = 1'
-  )
-  return blog_settings
-}
+const getBlogSettings = require('../utils/utilFunctions')
 
 /**
  * @api {get} / Get all Articles
@@ -27,15 +20,26 @@ router.get('/', async (req, res) => {
  */
 router.get('/article/:article_id', async (req, res) => {
   const article_id = await req.params.article_id
-  const article = await db.get('SELECT * FROM articles WHERE article_id = ?', [
-    article_id,
-  ])
   const blog_settings = await getBlogSettings()
-  const comments = await db.all(
-    'SELECT * FROM article_comments WHERE article_id = ? ORDER BY comment_created_at DESC',
-    [article_id]
-  )
-  res.render('reader/article', { blog_settings, article, comments })
+  try {
+    const article = await db.get(
+      'SELECT * FROM articles WHERE article_id = ?',
+      [article_id]
+    )
+
+    // If article is not found, throw an error
+    if (article.length === 0) {
+      throw new Error('Article not found')
+    }
+
+    const comments = await db.all(
+      'SELECT * FROM article_comments WHERE article_id = ? ORDER BY comment_created_at DESC',
+      [article_id]
+    )
+    res.render('reader/article', { blog_settings, article, comments })
+  } catch (error) {
+    res.render('error-pages/404.ejs', { blog_settings })
+  }
 })
 
 /**
@@ -67,6 +71,11 @@ router.post('/article/:article_id/comment', async (req, res) => {
   res.redirect(`/article/${article_id}`)
 })
 
+/**
+ * @api {put} /article/:article_id/comment/:comment_id/like Like Comment
+ * @apiParam {Number} article_id Article ID
+ * @apiParam {Number} comment_id Comment ID
+ */
 router.put(
   '/article/:article_id/comment/:comment_id/like',
   async (req, res) => {
@@ -85,6 +94,11 @@ router.put(
   }
 )
 
+/**
+ * @api {delete} /article/:article_id/comment/:comment_id/delete Delete Comment
+ * @apiParam {Number} article_id Article ID
+ * @apiParam {Number} comment_id Comment ID
+ */
 router.delete(
   '/article/:article_id/comment/:comment_id/delete',
   async (req, res) => {
@@ -93,7 +107,9 @@ router.delete(
     await db.run('DELETE FROM article_comments WHERE comment_id = ?', [
       comment_id,
     ])
-    res.redirect(`/article/${article_id}`)
+
+    res.json({ message: 'Comment deleted successfully' })
+    // res.redirect(`/article/${article_id}`)
   }
 )
 

@@ -12,7 +12,6 @@
             <div class="title-container">
               <h1 id="page-title" class="fit">Article Management Area</h1>
             </div>
-            <script src="/libs/fitty.min.js"></script>
             <script>
               fitty('#page-title', { minSize: 20, maxSize: 80 })
             </script>
@@ -264,6 +263,7 @@
         </div>
 
         <script>
+          // function for converting the articles to draft or published
           const actionArticle = (articleId, actionType) => {
             axios
               .put(`/author/article/${articleId}/${actionType}`)
@@ -276,6 +276,7 @@
               })
           }
 
+          // function for deleting the article stage: Primary
           const deleteArticle = (articleId) => {
             const deleteArticleConfirmBtn = document.getElementById(
               'delete-article-confirm-btn'
@@ -286,6 +287,7 @@
             )
           }
 
+          // function for deleting the article stage: Final
           const deleteArticleConfirm = (articleId) => {
             axios
               .delete(`/author/article/${articleId}`)
@@ -298,6 +300,7 @@
               })
           }
 
+          // function for getting the shareable link
           const updateModel = (articleId) => {
             const articleLink = document.getElementById('articleLink')
             const shareableLinkOpenBtn = document.getElementById(
@@ -307,6 +310,7 @@
             shareableLinkOpenBtn.setAttribute('href', `/article/${articleId}`)
           }
 
+          // function for copying the shareable link
           const copyShareableLink = async () => {
             const articleLink = document.getElementById('articleLink')
             articleLink.select()

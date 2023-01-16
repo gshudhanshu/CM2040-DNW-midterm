@@ -2,13 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { query, param, body, validationResult } = require('express-validator')
 const db = require('../utils/sqlitePromises')
-
-const getBlogSettings = async () => {
-  const blog_settings = await db.get(
-    'SELECT * FROM blog_settings WHERE blog_id = 1'
-  )
-  return blog_settings
-}
+const getBlogSettings = require('../utils/utilFunctions')
 
 router.get('/', async (req, res) => {
   const blog_settings = await getBlogSettings()
