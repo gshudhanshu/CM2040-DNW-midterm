@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { query, param, body, validationResult } = require('express-validator')
 const db = require('../utils/sqlitePromises')
 const getBlogSettings = require('../utils/utilFunctions')
 
+/**
+ * @api {get} /author Get all Articles
+ */
 router.get('/', async (req, res) => {
   const blog_settings = await getBlogSettings()
   const published_articles = await db.all(
@@ -19,6 +21,9 @@ router.get('/', async (req, res) => {
   })
 })
 
+/**
+ * @api {get} /author/blog-settings Get Blog Settings
+ */
 router.get('/blog-settings', async (req, res) => {
   const blog_settings = await getBlogSettings()
   res.render('author/blog-settings', {
@@ -26,6 +31,9 @@ router.get('/blog-settings', async (req, res) => {
   })
 })
 
+/**
+ * @api {post} /author/blog-settings Update Blog Settings
+ */
 router.post('/blog-settings', async (req, res) => {
   const { blog_title, blog_subtitle, blog_author } = req.body
   const blog_id = 1
@@ -38,6 +46,9 @@ router.post('/blog-settings', async (req, res) => {
   // res.redirect('/author/blog-settings')
 })
 
+/**
+ * @api {get} /author/create-new-article Create New Article
+ */
 router.get('/create-new-article', async (req, res) => {
   const blog_settings = await getBlogSettings()
   res.render('author/create-new-article', {
@@ -45,6 +56,9 @@ router.get('/create-new-article', async (req, res) => {
   })
 })
 
+/**
+ * @api {post} /author/create-new-article Create New Article
+ */
 router.post('/create-new-article', async (req, res) => {
   const { article_title, article_subtitle, article_content } = req.body
   const blog_settings = await getBlogSettings()
@@ -61,6 +75,10 @@ router.post('/create-new-article', async (req, res) => {
   // res.redirect('/author')
 })
 
+/**
+ * @api {get} /author/edit-article/:article_id Edit Article
+ * @apiParam {Number} article_id Article ID
+ */
 router.get('/edit-article/:article_id', async (req, res) => {
   const article_id = req.params.article_id
   const article = await db.get('SELECT * FROM articles WHERE article_id = ?', [
@@ -73,6 +91,10 @@ router.get('/edit-article/:article_id', async (req, res) => {
   })
 })
 
+/**
+ * @api {put} /author/edit-article/:article_id Edit Article
+ * @apiParam {Number} article_id Article ID
+ */
 router.put('/edit-article/:article_id', async (req, res) => {
   const article_id = req.params.article_id
   const { article_title, article_subtitle, article_content } = req.body
@@ -84,6 +106,11 @@ router.put('/edit-article/:article_id', async (req, res) => {
   // res.redirect('/author')
 })
 
+/**
+ * @api {get} /author/article/:article_id/:action Publish or Draft Article
+ * @apiParam {Number} article_id Article ID
+ * @apiParam {String} action Action to perform
+ */
 router.put('/article/:article_id/:action', async (req, res) => {
   const article_id = req.params.article_id
   const actionParam = req.params.action
@@ -103,6 +130,10 @@ router.put('/article/:article_id/:action', async (req, res) => {
   // res.redirect('/author')
 })
 
+/**
+ * @api {delete} /author/article/:article_id Delete Article
+ * @apiParam {Number} article_id Article ID
+ */
 router.delete('/article/:article_id', async (req, res) => {
   const article_id = req.params.article_id
   await db.run('DELETE FROM article_comments WHERE article_id = ?', [

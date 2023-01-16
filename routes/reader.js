@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const { query, param, body, validationResult } = require('express-validator')
 const db = require('../utils/sqlitePromises')
 const getBlogSettings = require('../utils/utilFunctions')
 
@@ -55,7 +54,8 @@ router.put('/article/:article_id/like', async (req, res) => {
     likes,
     article_id,
   ])
-  res.redirect(`/article/${article_id}`)
+  res.json({ message: 'Article liked successfully' })
+  // res.redirect(`/article/${article_id}`)
 })
 
 /**
@@ -68,7 +68,8 @@ router.post('/article/:article_id/comment', async (req, res) => {
     'INSERT INTO article_comments (comment_name, comment_text, article_id) VALUES (?, ?, ?)',
     [comment_name, comment_text, article_id]
   )
-  res.redirect(`/article/${article_id}`)
+  res.json({ message: 'Comment added successfully' })
+  // res.redirect(`/article/${article_id}`)
 })
 
 /**
@@ -90,7 +91,8 @@ router.put(
       'UPDATE article_comments SET comment_likes = ? WHERE comment_id = ?',
       [likes, comment_id]
     )
-    res.redirect(`/article/${article_id}`)
+    res.json({ message: 'Comment liked successfully' })
+    // res.redirect(`/article/${article_id}`)
   }
 )
 
