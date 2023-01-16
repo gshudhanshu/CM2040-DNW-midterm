@@ -28,7 +28,7 @@ To install all the node packages run `npm install` from the project directory
 - `clean-db` - delete the database
 - `npm run dev` - start the server using nodemon
 
-##### Database schema
+#### Database schema
 
 ![SQL DB Schema](./sql-schema.png)
 
